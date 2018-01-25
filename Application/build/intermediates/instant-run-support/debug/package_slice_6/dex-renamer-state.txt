@@ -1,0 +1,4 @@
+#Thu Jan 25 17:27:20 CET 2018
+base.0=/Users/bene/Dropbox/Dokumente/Promotion/PROJECTS/Beamerscope/Android/cellSTORM/Application/build/intermediates/transforms/dexMerger/debug/7
+path.0=classes.dex
+renamed.0=classes.dex
