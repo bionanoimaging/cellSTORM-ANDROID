@@ -957,10 +957,14 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
         } else
             exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
 
+
+
         builder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
         //builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
         //builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
         builder.set(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
+        builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
+        builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
         //builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
         //builder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
         //builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
@@ -1820,6 +1824,21 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
         }
 
 
+    }
+
+
+    // taken from killerink/freedcam
+    public static long getMilliSecondStringFromShutterString(String shuttervalue)
+    {
+        float a;
+        if (shuttervalue.contains("/")) {
+            String[] split = shuttervalue.split("/");
+            a = Float.parseFloat(split[0]) / Float.parseFloat(split[1])*1000000f;
+        }
+        else
+            a = Float.parseFloat(shuttervalue)*1000000f;
+        a = Math.round(a);
+        return  (long)a;
     }
 
 

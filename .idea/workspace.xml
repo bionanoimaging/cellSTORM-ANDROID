@@ -11,7 +11,11 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="22d9ea2d-a8a5-405e-a68c-2361ab030606" name="Default" comment="" />
+    <list default="true" id="22d9ea2d-a8a5-405e-a68c-2361ab030606" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Application/src/main/java/com/example/android/camera2raw/CameraActivity.java" afterPath="$PROJECT_DIR$/Application/src/main/java/com/example/android/camera2raw/CameraActivity.java" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,31 +41,31 @@
       <file leaf-file-name="CameraActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/src/main/java/com/example/android/camera2raw/CameraActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="1226" column="16" lean-forward="false" selection-start-line="1226" selection-start-column="14" selection-end-line="1226" selection-end-column="16" />
+            <state relative-caret-position="210">
+              <caret line="1829" column="36" lean-forward="false" selection-start-line="1829" selection-start-column="36" selection-end-line="1829" selection-end-column="36" />
               <folding>
-                <element signature="e#0#70943#0" expanded="true" />
+                <element signature="e#0#71593#0" expanded="true" />
                 <element signature="imports" expanded="true" />
                 <element signature="e#13057#13263#0" expanded="true" />
                 <element signature="e#13262#13263#0" expanded="true" />
                 <element signature="e#21916#21938#0" expanded="true" />
                 <element signature="e#25246#25284#0" expanded="true" />
                 <element signature="e#27765#27792#0" expanded="true" />
-                <element signature="e#55821#55822#0" expanded="true" />
-                <element signature="e#55871#55872#0" expanded="true" />
-                <element signature="e#58700#58701#0" expanded="true" />
-                <element signature="e#58765#58766#0" expanded="true" />
-                <element signature="e#59367#59621#0" expanded="true" />
-                <element signature="e#59620#59621#0" expanded="true" />
-                <element signature="e#60814#60815#0" expanded="true" />
-                <element signature="e#60852#60853#0" expanded="true" />
-                <element signature="e#69123#69124#0" expanded="true" />
-                <element signature="e#69184#69185#0" expanded="true" />
-                <element signature="e#70053#70080#0" expanded="true" />
-                <element signature="e#70142#70499#0" expanded="true" />
-                <element signature="e#70498#70499#0" expanded="true" />
-                <element signature="e#70593#70887#0" expanded="true" />
-                <element signature="e#70886#70887#0" expanded="true" />
+                <element signature="e#56011#56012#0" expanded="true" />
+                <element signature="e#56061#56062#0" expanded="true" />
+                <element signature="e#58890#58891#0" expanded="true" />
+                <element signature="e#58955#58956#0" expanded="true" />
+                <element signature="e#59557#59811#0" expanded="true" />
+                <element signature="e#59810#59811#0" expanded="true" />
+                <element signature="e#61004#61005#0" expanded="true" />
+                <element signature="e#61042#61043#0" expanded="true" />
+                <element signature="e#69313#69314#0" expanded="true" />
+                <element signature="e#69374#69375#0" expanded="true" />
+                <element signature="e#70243#70270#0" expanded="true" />
+                <element signature="e#70332#70689#0" expanded="true" />
+                <element signature="e#70688#70689#0" expanded="true" />
+                <element signature="e#70783#71077#0" expanded="true" />
+                <element signature="e#71076#71077#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -95,7 +99,6 @@
       <find>ImageSaver</find>
       <find>height</find>
       <find>raw</find>
-      <find>dual</find>
       <find>largest</find>
       <find>requestCameraPermissions</find>
       <find>shouldShowRationale</find>
@@ -108,11 +111,15 @@
       <find>still</find>
       <find>capturestill</find>
       <find>crop</find>
+      <find>dual</find>
     </findStrings>
     <replaceStrings>
       <replace>CameraActivity_BAK</replace>
       <replace>CameraActivity</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -1795,6 +1802,7 @@
     <option name="width" value="1379" />
     <option name="height" value="877" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="AndroidView" proportions="" version="1">
       <flattenPackages />
@@ -2320,7 +2328,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32909784" sideWeight="0.4973822" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40025413" sideWeight="0.13014211" order="-1" side_tool="true" content_ui="tabs" />
@@ -2473,31 +2481,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/src/main/java/com/example/android/camera2raw/CameraActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="1226" column="16" lean-forward="false" selection-start-line="1226" selection-start-column="14" selection-end-line="1226" selection-end-column="16" />
+        <state relative-caret-position="210">
+          <caret line="1829" column="36" lean-forward="false" selection-start-line="1829" selection-start-column="36" selection-end-line="1829" selection-end-column="36" />
           <folding>
-            <element signature="e#0#70943#0" expanded="true" />
+            <element signature="e#0#71593#0" expanded="true" />
             <element signature="imports" expanded="true" />
             <element signature="e#13057#13263#0" expanded="true" />
             <element signature="e#13262#13263#0" expanded="true" />
             <element signature="e#21916#21938#0" expanded="true" />
             <element signature="e#25246#25284#0" expanded="true" />
             <element signature="e#27765#27792#0" expanded="true" />
-            <element signature="e#55821#55822#0" expanded="true" />
-            <element signature="e#55871#55872#0" expanded="true" />
-            <element signature="e#58700#58701#0" expanded="true" />
-            <element signature="e#58765#58766#0" expanded="true" />
-            <element signature="e#59367#59621#0" expanded="true" />
-            <element signature="e#59620#59621#0" expanded="true" />
-            <element signature="e#60814#60815#0" expanded="true" />
-            <element signature="e#60852#60853#0" expanded="true" />
-            <element signature="e#69123#69124#0" expanded="true" />
-            <element signature="e#69184#69185#0" expanded="true" />
-            <element signature="e#70053#70080#0" expanded="true" />
-            <element signature="e#70142#70499#0" expanded="true" />
-            <element signature="e#70498#70499#0" expanded="true" />
-            <element signature="e#70593#70887#0" expanded="true" />
-            <element signature="e#70886#70887#0" expanded="true" />
+            <element signature="e#56011#56012#0" expanded="true" />
+            <element signature="e#56061#56062#0" expanded="true" />
+            <element signature="e#58890#58891#0" expanded="true" />
+            <element signature="e#58955#58956#0" expanded="true" />
+            <element signature="e#59557#59811#0" expanded="true" />
+            <element signature="e#59810#59811#0" expanded="true" />
+            <element signature="e#61004#61005#0" expanded="true" />
+            <element signature="e#61042#61043#0" expanded="true" />
+            <element signature="e#69313#69314#0" expanded="true" />
+            <element signature="e#69374#69375#0" expanded="true" />
+            <element signature="e#70243#70270#0" expanded="true" />
+            <element signature="e#70332#70689#0" expanded="true" />
+            <element signature="e#70688#70689#0" expanded="true" />
+            <element signature="e#70783#71077#0" expanded="true" />
+            <element signature="e#71076#71077#0" expanded="true" />
           </folding>
         </state>
       </provider>
