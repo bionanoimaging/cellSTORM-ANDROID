@@ -1,0 +1,6 @@
+Application/build/
+.gradle
+.gradle/
+.gradle/*
+Application/build/*
+Application/build*
