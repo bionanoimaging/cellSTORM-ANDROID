@@ -947,10 +947,9 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                     CaptureRequest.CONTROL_AWB_MODE_AUTO);
         }
 
-        long expotimeToSet = 5000;
 
-        int msexpo = (int) (expotimeToSet) / 1000; //ns to ms
-        int currentiso = 3200;
+        int msexpo = (int)getMilliSecondStringFromShutterString("1/30");
+        int currentiso = 800;
 
         Rational exporat;
         if (msexpo > 1000000) {
