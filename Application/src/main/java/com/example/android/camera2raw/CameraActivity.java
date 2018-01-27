@@ -58,17 +58,14 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Rational;
 import android.util.Size;
 import android.util.SparseIntArray;
-import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.File;
@@ -137,6 +134,12 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
     }
 
 
+
+    private Image mRawLastReceivedImage = null;
+   // private ImageReader mRawImageReader;
+    private Size mRawSize;
+    private Integer mRawFormat;
+
     /**
      * Request code for camera permissions.
      */
@@ -176,6 +179,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
      * ZOOM PARAMETER FOR CROPPING
      */
     Rect CURRENT_ZOOM;
+    int crop_height = 1080;
+    int crop_width = 1920;
 
 
     /**
@@ -657,10 +662,6 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
                 // For still image captures, we use the largest available size.
-                Size largest = Collections.max(
-                        Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
-                        new CompareSizesByArea());
-
                 Size largestRaw = Collections.max(
                         Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),
                         new CompareSizesByArea());
@@ -994,6 +995,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
         Log.i(TAG, "Enter ZOOM 3");
         CURRENT_ZOOM = new Rect(cropW, cropH, m.width() - cropW, m.height() - cropH);
+        crop_height = CURRENT_ZOOM.height();
+        crop_width = CURRENT_ZOOM.width();
         builder.set(CaptureRequest.SCALER_CROP_REGION, CURRENT_ZOOM);
         /*
         try {
@@ -1843,5 +1846,80 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
 
 
+    ImageReader.OnImageAvailableListener mRawImageListener =
+            new ImageReader.OnImageAvailableListener() {
+                @Override
+                public void onImageAvailable(ImageReader reader) {
+                    Image img = reader.acquireLatestImage();
+                    if (img == null) {
+                        Log.e(TAG, "Null image returned YUV1");
+                        return;
+                    }
+
+                    if (mRawLastReceivedImage != null) {
+                        mRawLastReceivedImage.close();
+                    }
+
+                    Image.Plane plane0 = img.getPlanes()[0];
+                    final ByteBuffer buffer = plane0.getBuffer();
+
+                    final byte[] DateBuf;
+                    if (buffer.hasArray()) {
+                        DateBuf = buffer.array();
+                    } else {
+                        DateBuf = new byte[buffer.capacity()];
+                        buffer.get(DateBuf);
+                    }
+
+                    saveFile(DateBuf,img.getWidth(), img.getHeight(),2);
+
+                    mRawLastReceivedImage = img;
+                    Log.d(TAG,"mRawImageListener RECIEVE img!!!");
+                }
+            };
+
+
+
+    private void saveFile(byte[] Data,int w,int h,int type){
+        String filename = "";
+        String filetype = "";
+        try {
+            switch(type)
+            {
+                case 0:
+                    filetype="JPG";
+                    break;
+                case 1:
+                    filetype="yuv";
+                    break;
+                case 2:
+                    filetype="raw";
+                    break;
+                default:
+                    Log.w(TAG,"unknow file type");
+            }
+
+            filename = String.format("/sdcard/DCIM/Camera/SNAP_%dx%d_%d.%s", w,h,System.currentTimeMillis(),filetype);
+            File file;
+            while (true) {
+                file = new File(filename);
+                if (file.createNewFile()) {
+                    break;
+                }
+            }
+
+            long t0 = SystemClock.uptimeMillis();
+            OutputStream os = new FileOutputStream(file);
+            os.write(Data);
+            os.flush();
+            os.close();
+            long t1 = SystemClock.uptimeMillis();
+
+            Log.d(TAG, String.format("Wrote data(%d) %d bytes as %s in %.3f seconds;%s",type,
+                    Data.length, file, (t1 - t0) * 0.001,filename));
+        } catch (IOException e) {
+            Log.e(TAG, "Error creating new file: ", e);
+        }
+    }
 
 }
