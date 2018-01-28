@@ -4,3 +4,10 @@ Application/build/
 .gradle/*
 Application/build/*
 Application/build*
+.gradle/*
+build/*
+.gradle/*
+.idea/*
+local.properties
+Application/Application.iml
+cellSTORM.iml

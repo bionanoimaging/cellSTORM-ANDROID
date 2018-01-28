@@ -66,6 +66,8 @@ import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -117,8 +119,83 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             }
         };
 
+        seekbar_iso = findViewById(R.id.seekBar_iso);
+        seekbar_iso.setVisibility(View.GONE);
+        seekbar_shutter = findViewById(R.id.seekBar_shutter);
+        seekbar_shutter.setVisibility(View.GONE);
 
+
+        List<String> isolist = new ArrayList<>();
+        for (int i = 50; i < 3200; i+=50)
+            isolist.add(String.valueOf(i));
+        isovalues = new String[isolist.size()];
+        isolist.toArray(isovalues);
+
+        seekbar_iso.setMax(isovalues.length-1);
+        seekbar_iso.setProgress(16); // 50x16=800
+
+        seekbar_iso.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (mPreviewRequestBuilder != null &&fromUser)
+                {
+                    textView_iso.setText("Iso:" + isovalues[i]);
+                    setIso(isovalues[i]);
+                    try {
+                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),mPreCaptureCallback, mBackgroundHandler);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        shuttervalues = "1/100000,1/6000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,1/4,1/2,2,4,8,15,30,32".split(",");
+        seekbar_shutter.setMax(shuttervalues.length-1);
+        seekbar_shutter.setProgress(9); // == 1/30
+        seekbar_shutter.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if (mPreviewRequestBuilder != null &&fromUser)
+                {
+                    textView_shutter.setText("Shutter:" +shuttervalues[i]);
+                    setExposureTime(shuttervalues[i]);
+                    try {
+                        mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),mPreCaptureCallback, mBackgroundHandler);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        textView_shutter = findViewById(R.id.textView_shutter);
+        textView_shutter.setText("Shutter:1/30");
+        textView_iso = findViewById(R.id.textView_iso);
+        textView_iso.setText("Iso:800");
     }
+
+
 
 
     /**
@@ -350,6 +427,16 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
      * taking too long.
      */
     private long mCaptureTimer;
+
+
+    private SeekBar seekbar_iso;
+    private SeekBar seekbar_shutter;
+
+    private String[] isovalues;
+    private String[] shuttervalues;
+
+    private TextView textView_iso;
+    private TextView textView_shutter;
 
     //**********************************************************************************************
 
@@ -785,6 +872,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             mCameraOpenCloseLock.acquire();
             synchronized (mCameraStateLock) {
 
+                seekbar_iso.setVisibility(View.GONE);
+                seekbar_shutter.setVisibility(View.GONE);
                 // Reset state and clean up resources used by the camera.
                 // Note: After calling this, the ImageReaders will be closed after any background
                 // tasks saving Images from these readers have been completed.
@@ -892,6 +981,35 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+
+        seekbar_iso.post(new Runnable() {
+            @Override
+            public void run() {
+                seekbar_shutter.setVisibility(View.VISIBLE);
+                seekbar_iso.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+
+    private void setExposureTime(String val)
+    {
+        int msexpo = (int)getMilliSecondStringFromShutterString(val);
+
+        Rational exporat;
+        if (msexpo > 1000000) {
+            exporat = new Rational(msexpo / 1000000, 1);
+        } else
+            exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
+
+        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
+        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+    }
+
+    private void setIso(String iso)
+    {
+        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, Integer.parseInt(iso));
     }
 
     /**
@@ -947,32 +1065,14 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                     CaptureRequest.CONTROL_AWB_MODE_AUTO);
         }
 
-
-        int msexpo = (int)getMilliSecondStringFromShutterString("1/30");
-        int currentiso = 800;
-
-        Rational exporat;
-        if (msexpo > 1000000) {
-            exporat = new Rational(msexpo / 1000000, 1);
-        } else
-            exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
-
-
-
-        builder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
-        //builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-        //builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        builder.set(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
         builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-        //builder.set(CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE,CaptureRequestEx.HUAWEI_PROFESSIONAL_MODE_ENABLED);
-        //builder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME,msexpo);
-        //builder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-        //builder.set(CaptureRequestEx.HUAWEI_SENSOR_ISO_VALUE, currentiso);
-
+        Log.i(TAG, "set DUAL");
         builder.set(HUAWEI_DUAL_SENSOR_MODE, (byte) 2);
 
-        Log.i(TAG, "set DUAL");
+        setExposureTime("1/30");
+        setIso("800");
+
+
         int cropW = 1000;
         int cropH = cropW;
         float maxzoom = 0;
