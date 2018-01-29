@@ -969,7 +969,6 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                                 }
                                 // When the session is ready, we start displaying the preview.
                                 mCaptureSession = cameraCaptureSession;
-                                Log.i(TAG, "mCaptureSession was created");
                             }
                         }
 
@@ -1005,7 +1004,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
 
         mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
-        //mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+//        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
     }
 
     private void setIso(String iso)
