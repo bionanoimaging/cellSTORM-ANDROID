@@ -1272,11 +1272,12 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                 mState = STATE_WAITING_FOR_3A_CONVERGENCE;
 
                 // Start a timer for the pre-capture sequence.
-                startTimerLocked();
+                //startTimerLocked();
 
                 // Replace the existing repeating request with one with updated 3A triggers.
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), mPreCaptureCallback,
                         mBackgroundHandler);
+
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -1322,7 +1323,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
             mRawResultQueue.put((int) request.getTag(), rawBuilder);
 
-            mCaptureSession.capture(request, mCaptureCallback, mBackgroundHandler);
+            //mCaptureSession.capture(request, mCaptureCallback, mBackgroundHandler);
+            mCaptureSession.setRepeatingRequest(request, mCaptureCallback, mBackgroundHandler);
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
