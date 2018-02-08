@@ -1004,7 +1004,11 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
 
         mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
+<<<<<<< HEAD
 //        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+=======
+        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+>>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
     }
 
     private void setIso(String iso)
