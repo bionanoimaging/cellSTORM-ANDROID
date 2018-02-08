@@ -1005,7 +1005,11 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
         mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
 <<<<<<< HEAD
+<<<<<<< HEAD
 //        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+=======
+        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
+>>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
 =======
         mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
 >>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
