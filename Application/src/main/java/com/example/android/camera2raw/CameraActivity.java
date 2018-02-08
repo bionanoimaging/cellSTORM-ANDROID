@@ -96,6 +96,8 @@ import static com.example.android.camera2raw.CaptureRequestEx.HUAWEI_DUAL_SENSOR
  */
 public class CameraActivity extends Activity implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
 
+    String global_isoval = "0";
+    String global_expval = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,13 +128,15 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
 
         List<String> isolist = new ArrayList<>();
-        for (int i = 50; i < 3200; i+=50)
-            isolist.add(String.valueOf(i));
+
+        isolist.add(String.valueOf(3200));
+        isolist.add(String.valueOf(6400));
+        isolist.add(String.valueOf(12800));
         isovalues = new String[isolist.size()];
         isolist.toArray(isovalues);
 
         seekbar_iso.setMax(isovalues.length-1);
-        seekbar_iso.setProgress(16); // 50x16=800
+        seekbar_iso.setProgress(3); // 50x16=800
 
         seekbar_iso.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -140,7 +144,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                 if (mPreviewRequestBuilder != null &&fromUser)
                 {
                     textView_iso.setText("Iso:" + isovalues[i]);
-                    setIso(isovalues[i]);
+                    global_isoval = isovalues[i];
+                    setIso(global_isoval);
                     try {
                         mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(),mPreCaptureCallback, mBackgroundHandler);
                     } catch (CameraAccessException e) {
@@ -168,6 +173,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
                 if (mPreviewRequestBuilder != null &&fromUser)
                 {
+                    global_expval = shuttervalues[i];
                     textView_shutter.setText("Shutter:" +shuttervalues[i]);
                     setExposureTime(shuttervalues[i]);
                     try {
@@ -591,7 +597,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             String currentDateTime = generateTimestamp();
             File rawFile = new File(Environment.
                     getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-                    "RAW_" + currentDateTime + ".dng");
+                    "RAW_" + currentDateTime + "_ExpTime_"+global_expval.split("/")+"_ISOVal_" + global_isoval + ".dng");
 
             // Look up the ImageSaverBuilder for this request and update it with the file name
             // based on the capture start time.
@@ -969,6 +975,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                                 }
                                 // When the session is ready, we start displaying the preview.
                                 mCaptureSession = cameraCaptureSession;
+                                Log.i(TAG, "mCaptureSession was created");
                             }
                         }
 
@@ -1004,23 +1011,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
             exporat = new Rational(1, (int) (0.5D + 1.0E9F / msexpo));
 
         mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_SENSOR_EXPOSURE_TIME, msexpo);
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-//        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
-=======
-        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
->>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
-=======
-        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
->>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
-=======
-        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
->>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
-=======
-        mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
->>>>>>> parent of 8c4f0dd... Fixed missing "proExposureTime" Error
+        //mPreviewRequestBuilder.set(CaptureRequestEx.HUAWEI_PROF_EXPOSURE_TIME, exporat);
     }
 
     private void setIso(String iso)
@@ -1288,12 +1279,11 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                 mState = STATE_WAITING_FOR_3A_CONVERGENCE;
 
                 // Start a timer for the pre-capture sequence.
-                //startTimerLocked();
+                startTimerLocked();
 
                 // Replace the existing repeating request with one with updated 3A triggers.
                 mCaptureSession.capture(mPreviewRequestBuilder.build(), mPreCaptureCallback,
                         mBackgroundHandler);
-
             } catch (CameraAccessException e) {
                 e.printStackTrace();
             }
@@ -1339,8 +1329,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
             mRawResultQueue.put((int) request.getTag(), rawBuilder);
 
-            //mCaptureSession.capture(request, mCaptureCallback, mBackgroundHandler);
-            mCaptureSession.setRepeatingRequest(request, mCaptureCallback, mBackgroundHandler);
+            mCaptureSession.capture(request, mCaptureCallback, mBackgroundHandler);
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
