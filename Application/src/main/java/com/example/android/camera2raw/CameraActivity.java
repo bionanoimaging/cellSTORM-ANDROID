@@ -128,7 +128,12 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
 
 
         List<String> isolist = new ArrayList<>();
-
+        isolist.add(String.valueOf(100));
+        isolist.add(String.valueOf(200));
+        isolist.add(String.valueOf(500));
+        isolist.add(String.valueOf(640));
+        isolist.add(String.valueOf(800));
+        isolist.add(String.valueOf(1000));
         isolist.add(String.valueOf(3200));
         isolist.add(String.valueOf(6400));
         isolist.add(String.valueOf(12800));
@@ -404,7 +409,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
     /**
      * Whether or not the currently configured camera device is fixed-focus.
      */
-    private boolean mNoAFRun = false;
+    private boolean mNoAFRun = true;
 
     /**
      * Number of pending user requests to capture a photo.
@@ -530,9 +535,13 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
                             }
 
                             // If auto-focus has reached locked state, we are ready to capture
-                            readyToCapture =
-                                    (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
-                                            afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED);
+                            if (true) {
+                                readyToCapture = true;
+                            } else {
+                                readyToCapture =
+                                        (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
+                                                afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED);
+                            }
                         }
 
                         // If we are running on an non-legacy device, we should also wait until
@@ -1032,11 +1041,13 @@ public class CameraActivity extends Activity implements View.OnClickListener, Fr
         builder.set(CaptureRequest.CONTROL_MODE,
                 CaptureRequest.CONTROL_MODE_AUTO);
 
-        Float minFocusDist =
-                mCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
+        builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_OFF);
+        builder.set(CaptureRequest.LENS_FOCUS_DISTANCE, 0.0f);
+
+        // Float minFocusDist =                 mCharacteristics.get(CameraCharacteristics.LENS_INFO_MINIMUM_FOCUS_DISTANCE);
 
         // If MINIMUM_FOCUS_DISTANCE is 0, lens is fixed-focus and we need to skip the AF run.
-        mNoAFRun = (minFocusDist == null || minFocusDist == 0);
+        // mNoAFRun = (minFocusDist == null || minFocusDist == 0);
 
         if (!mNoAFRun) {
             // If there is a "continuous picture" mode available, use it, otherwise default to AUTO.
